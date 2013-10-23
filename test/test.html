@@ -22,16 +22,23 @@
         <h1 style="display:none" id="big">
             <a href="#">This is a big header</a>
         </h1>
-        
+
         <h2 id="small">
             <a href="#">This is a small header</a>
         </h2>
-        
-    
+
+        <p><a href="#" id="pre_replay">Click here to test test-replay</a></p>
+
+        <h1 style="display:none" id="replay_test">
+            Oops, the title disappeared, what do we do?
+            Let's <a href="#">replay tests</a>!
+        </h1>
+
+
         <script type="text/javascript" charset="utf-8">
             $(document).ready(function() {
                 Cohorts.Options.debug = true;
-                
+
                 header_test = new Cohorts.Test({
                     name: 'big_vs_small_header',
                     sample: 1,
@@ -42,16 +49,34 @@
                                 $('#small').hide();
                             }
                         },
-                        small: {},
+                        small: {
+                            onChosen: function() {
+                                $('#small').show();
+                                $('#big').hide();
+                            }
+                        },
                     }
                 });
-            
+
                 $('#big').click(function() {
                     header_test.event('Clicked on Big Header');
                 });
-            
+
                 $('#small').click(function() {
                     header_test.event('Clicked on Small Header');
+                });
+
+                $('#pre_replay').click(function() {
+                    $('#big').hide();
+                    $('#small').hide();
+                    $('#pre_replay').hide();
+                    $('#replay_test').show();
+                });
+
+                $('#replay_test').click(function() {
+                    Cohorts.Tests.replayAll();
+                    $('#replay_test').hide();
+                    $('#pre_replay').show();
                 });
             });
         </script>
